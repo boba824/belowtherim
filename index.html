@@ -59,9 +59,48 @@
       <aside class="article-list" aria-labelledby="article-list-title">
         <div class="aside-heading">
           <p class="eyebrow" data-ui="archive">Archívum</p>
-          <h2 id="article-list-title" data-ui="allArticles">Minden cikk</h2>
+          <h2 id="article-list-title" data-ui="allArticles">
+            Minden cikk
+          </h2>
         </div>
+
+        <div class="archive-filters">
+          <label class="search-field">
+            <span class="sr-only" data-ui="searchLabel">
+              Keresés a cikkek között
+            </span>
+
+            <input
+              id="article-search"
+              type="search"
+              data-ui-placeholder="searchPlaceholder"
+              placeholder="Keresés…"
+              autocomplete="off"
+            >
+          </label>
+
+          <div
+            id="tag-filters"
+            class="tag-filters"
+            aria-label="Szűrés címke alapján"
+          ></div>
+
+          <button
+            id="clear-filters"
+            class="clear-filters"
+            type="button"
+            hidden
+            data-ui="clearFilters"
+          >
+            Szűrés törlése
+          </button>
+        </div>
+
         <nav id="article-navigation" aria-label="Cikkek"></nav>
+
+        <p id="no-results" class="no-results" hidden data-ui="noResults">
+          Nincs megfelelő cikk.
+        </p>
         <p class="coming-soon" data-ui="moreSoon">Hamarosan további történetekkel bővül.</p>
       </aside>
 
@@ -72,14 +111,33 @@
             <span aria-hidden="true">•</span>
             <span id="reading-time"></span>
           </div>
+          <div id="article-tags" class="article-tags"></div>
           <h2 id="article-title"></h2>
           <p id="article-deck" class="article-deck"></p>
         </header>
         <div id="article-disclaimer" class="disclaimer"></div>
         <div id="article-body" class="article-body"></div>
         <footer class="article-footer">
-          <p><span data-ui="authorLabel">Szerző:</span> <strong id="article-author"></strong></p>
-          <button id="back-to-top" type="button" class="text-button" data-ui="backToTop">Vissza az oldal tetejére ↑</button>
+          <div class="article-credits">
+            <p>
+              <span data-ui="authorLabel">Szerző:</span>
+              <strong id="article-author"></strong>
+            </p>
+
+            <p id="article-source-row" hidden>
+              <span data-ui="sourceLabel">Forrás:</span>
+              <strong id="article-source"></strong>
+            </p>
+          </div>
+
+          <button
+            id="back-to-top"
+            type="button"
+            class="text-button"
+            data-ui="backToTop"
+          >
+            Vissza az oldal tetejére ↑
+          </button>
         </footer>
       </article>
     </div>

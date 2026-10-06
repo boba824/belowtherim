@@ -1,3 +1,30 @@
+const tagLabels = {
+  'michael-jordan': {
+    hu: 'Michael Jordan',
+    en: 'Michael Jordan'
+  },
+  'bj-armstrong': {
+    hu: 'B. J. Armstrong',
+    en: 'B. J. Armstrong'
+  },
+  'chicago-bulls': {
+    hu: 'Chicago Bulls',
+    en: 'Chicago Bulls'
+  },
+  'detroit-pistons': {
+    hu: 'Detroit Pistons',
+    en: 'Detroit Pistons'
+  },
+  'playoffs': {
+    hu: 'Rájátszás',
+    en: 'Playoffs'
+  },
+  'hall-of-fame': {
+    hu: 'Hírességek Csarnoka',
+    en: 'Hall of Fame'
+  }
+};
+
 const uiText = {
   hu: {
     brand: 'Palánk alatt', tagline: 'Kosárlabda-történetek', menu: 'Menü', articles: 'Cikkek', about: 'Az oldalról',
@@ -6,7 +33,12 @@ const uiText = {
     archive: 'Archívum', allArticles: 'Minden cikk', moreSoon: 'Hamarosan további történetekkel bővül.',
     authorLabel: 'Szerző:', backToTop: 'Vissza az oldal tetejére ↑', aboutEyebrow: 'Az oldalról',
     aboutTitle: 'Egy bővíthető cikkarchívum', aboutText: 'A cikkek külön adatfájlokban élnek, ezért az archívum új történetekkel egyszerűen bővíthető. Minden írás magyar és angol nyelven is olvasható.',
-    footerText: 'Független kosárlabda-archívum', minute: 'perc olvasás', lightMode: 'Világos téma bekapcsolása', darkMode: 'Sötét téma bekapcsolása'
+    footerText: 'Független kosárlabda-archívum', minute: 'perc olvasás', lightMode: 'Világos téma bekapcsolása', darkMode: 'Sötét téma bekapcsolása',
+    searchLabel: 'Keresés a cikkek között',
+    searchPlaceholder: 'Keresés…',
+    clearFilters: 'Szűrés törlése',
+    noResults: 'Nincs megfelelő cikk.',
+    sourceLabel: 'Forrás:'
   },
   en: {
     brand: 'Below the Rim', tagline: 'Basketball stories', menu: 'Menu', articles: 'Articles', about: 'About',
@@ -15,13 +47,20 @@ const uiText = {
     archive: 'Archive', allArticles: 'All articles', moreSoon: 'More stories are coming soon.', authorLabel: 'By:',
     backToTop: 'Back to top ↑', aboutEyebrow: 'About', aboutTitle: 'An archive built to grow',
     aboutText: 'Articles live in separate data files, making it easy to expand the archive. Every story is available in Hungarian and English.',
-    footerText: 'Independent basketball archive', minute: 'min read', lightMode: 'Turn on light theme', darkMode: 'Turn on dark theme'
+    footerText: 'Independent basketball archive', minute: 'min read', lightMode: 'Turn on light theme', darkMode: 'Turn on dark theme',
+    searchLabel: 'Search articles',
+    searchPlaceholder: 'Search…',
+    clearFilters: 'Clear filters',
+    noResults: 'No matching articles.',
+    sourceLabel: 'Source:'
   }
 };
 
 const state = {
   language: localStorage.getItem('language') || 'hu',
-  article: window.ARTICLES[0]
+  article: window.ARTICLES[0],
+  searchQuery: '',
+  selectedTag: null
 };
 
 const $ = selector => document.querySelector(selector);
@@ -33,34 +72,169 @@ function formatDate(date, language) {
   }).format(new Date(`${date}T12:00:00`));
 }
 
+function normalizeSearchValue(value = '') {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase(
+      state.language === 'hu' ? 'hu-HU' : 'en-US'
+    )
+    .trim();
+}
+
+function getFilteredArticles() {
+  const query = normalizeSearchValue(state.searchQuery);
+
+  return window.ARTICLES.filter(article => {
+    const content = article[state.language];
+    const tags = article.tags || [];
+
+    const matchesTag =
+      !state.selectedTag ||
+      tags.includes(state.selectedTag);
+
+    const tagNames = tags.map(tag =>
+      tagLabels[tag]?.[state.language] || tag
+    );
+
+    const searchableText = normalizeSearchValue([
+      content.title,
+      content.deck,
+      article.author,
+      ...tags,
+      ...tagNames
+    ].join(' '));
+
+    const matchesSearch =
+      !query || searchableText.includes(query);
+
+    return matchesTag && matchesSearch;
+  });
+}
+
+function formatHashtag(label) {
+  return `#${label.replace(/\s+/g, '')}`;
+}
+
+function getAvailableTags() {
+  return [
+    ...new Set(
+      window.ARTICLES.flatMap(article => article.tags || [])
+    )
+  ];
+}
+
+function renderTagFilters() {
+  const container = $('#tag-filters');
+  const tags = getAvailableTags();
+
+  container.innerHTML = tags.map(tag => {
+    const label =
+      tagLabels[tag]?.[state.language] || tag;
+
+    const active = state.selectedTag === tag;
+
+    return `
+      <button
+        type="button"
+        class="article-tag${active ? ' active' : ''}"
+        data-filter-tag="${tag}"
+        aria-pressed="${active}"
+      >
+        ${formatHashtag(label)}
+      </button>
+    `;
+  }).join('');
+
+  $$('[data-filter-tag]').forEach(button => {
+    button.addEventListener('click', () => {
+      const tag = button.dataset.filterTag;
+
+      state.selectedTag =
+        state.selectedTag === tag ? null : tag;
+
+      renderTagFilters();
+      renderNavigation();
+      updateFilterControls();
+    });
+  });
+}
+
 function renderUI() {
   document.documentElement.lang = state.language;
+
   $$('[data-ui]').forEach(node => {
     const value = uiText[state.language][node.dataset.ui];
-    if (value) node.textContent = value;
+
+    if (value) {
+      node.textContent = value;
+    }
   });
+
+  $$('[data-ui-placeholder]').forEach(node => {
+    const value =
+      uiText[state.language][node.dataset.uiPlaceholder];
+
+    if (value) {
+      node.placeholder = value;
+    }
+  });
+
   $$('[data-language]').forEach(button => {
-    button.setAttribute('aria-pressed', String(button.dataset.language === state.language));
+    button.setAttribute(
+      'aria-pressed',
+      String(button.dataset.language === state.language)
+    );
   });
 }
 
 function renderNavigation() {
   const nav = $('#article-navigation');
+  const filteredArticles = getFilteredArticles();
+
   nav.innerHTML = '';
-  window.ARTICLES.forEach(article => {
+
+  filteredArticles.forEach(article => {
     const link = document.createElement('a');
-    link.className = `article-link${article.id === state.article.id ? ' active' : ''}`;
+
+    link.className =
+      `article-link${article.id === state.article.id ? ' active' : ''}`;
+
     link.href = `#${article.id}`;
-    link.innerHTML = `<strong>${article[state.language].title}</strong><time datetime="${article.date}">${formatDate(article.date, state.language)}</time>`;
+
+    link.innerHTML = `
+      <strong>${article[state.language].title}</strong>
+      <time datetime="${article.date}">
+        ${formatDate(article.date, state.language)}
+      </time>
+    `;
+
     link.addEventListener('click', event => {
       event.preventDefault();
+
       state.article = article;
       renderArticle();
-      history.replaceState(null, '', `#${article.id}`);
-      $('#article').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      history.replaceState(
+        null,
+        '',
+        `#${article.id}`
+      );
+
+      $('#article').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     });
+
     nav.append(link);
   });
+
+  $('#no-results').hidden = filteredArticles.length !== 0;
+}
+
+function formatHashtag(label) {
+  return `#${label.replace(/\s+/g, '')}`;
 }
 
 function renderArticle() {
@@ -71,6 +245,30 @@ function renderArticle() {
   $('#article-title').textContent = content.title;
   $('#article-deck').textContent = content.deck;
   $('#article-author').textContent = article.author;
+
+  const sourceRow = $('#article-source-row');
+  const sourceElement = $('#article-source');
+
+  sourceElement.replaceChildren();
+
+  if (article.source?.name) {
+    sourceRow.hidden = false;
+
+    if (article.source.url) {
+      const sourceLink = document.createElement('a');
+
+      sourceLink.href = article.source.url;
+      sourceLink.textContent = article.source.name;
+      sourceLink.target = '_blank';
+      sourceLink.rel = 'noopener noreferrer';
+
+      sourceElement.append(sourceLink);
+    } else {
+      sourceElement.textContent = article.source.name;
+    }
+  } else {
+    sourceRow.hidden = true;
+  }
   $('#article-disclaimer').textContent = content.disclaimer;
   $('#article-disclaimer').hidden = !content.disclaimer;
   $('#article-body').innerHTML = content.body.map(block => {
@@ -81,6 +279,22 @@ function renderArticle() {
   const wordCount = content.body.flatMap(block => block.type === 'quote' ? block.paragraphs : [block.text || '']).join(' ').trim().split(/\s+/).length;
   $('#reading-time').textContent = `${Math.max(1, Math.ceil(wordCount / 210))} ${uiText[state.language].minute}`;
   document.title = `${content.title} — ${uiText[state.language].brand}`;
+  $('#article-tags').innerHTML = (article.tags || [])
+    .map(tag => {
+      const label = tagLabels[tag]?.[state.language] || tag;
+
+      return `
+        <button
+          type="button"
+          class="article-tag"
+          data-tag="${tag}"
+          aria-label="${label}"
+        >
+          ${formatHashtag(label)}
+        </button>
+      `;
+    })
+    .join('');
   renderNavigation();
 }
 
@@ -95,6 +309,36 @@ function updateThemeLabel() {
   const isDark = document.documentElement.dataset.theme === 'dark';
   $('#theme-toggle').setAttribute('aria-label', isDark ? uiText[state.language].lightMode : uiText[state.language].darkMode);
 }
+
+function updateFilterControls() {
+  const hasActiveFilter =
+    Boolean(state.selectedTag) ||
+    Boolean(state.searchQuery.trim());
+
+  $('#clear-filters').hidden = !hasActiveFilter;
+}
+
+function setLanguage(language) {
+  state.language = language;
+
+  localStorage.setItem('language', language);
+
+  renderUI();
+  renderTagFilters();
+  renderArticle();
+  updateFilterControls();
+}
+
+$('#clear-filters').addEventListener('click', () => {
+  state.searchQuery = '';
+  state.selectedTag = null;
+
+  $('#article-search').value = '';
+
+  renderTagFilters();
+  renderNavigation();
+  updateFilterControls();
+});
 
 $$('[data-language]').forEach(button => button.addEventListener('click', () => {
   setLanguage(button.dataset.language);
@@ -116,8 +360,24 @@ $('.menu-toggle').addEventListener('click', event => {
 $('#back-to-top').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 $('#year').textContent = new Date().getFullYear();
 
-const hashArticle = window.ARTICLES.find(article => `#${article.id}` === location.hash);
-if (hashArticle) state.article = hashArticle;
+const hashArticle = window.ARTICLES.find(
+  article => `#${article.id}` === location.hash
+);
+
+if (hashArticle) {
+  state.article = hashArticle;
+}
+
+$('#article-search').addEventListener('input', event => {
+  state.searchQuery = event.target.value;
+
+  renderNavigation();
+  updateFilterControls();
+});
+
+// Kezdeti oldalbetöltés
 renderUI();
+renderTagFilters();
 renderArticle();
+updateFilterControls();
 updateThemeLabel();

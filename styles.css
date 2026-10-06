@@ -96,6 +96,145 @@ a { color: inherit; }
 .icon-button:hover { border-color: var(--accent); }
 .menu-toggle { display: none; }
 
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.9rem;
+  margin-top: 1.25rem;
+}
+
+.article-tag {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.article-tag:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.article-tag:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.article-tag.active {
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.archive-filters {
+  margin-bottom: 1.25rem;
+}
+
+.search-field {
+  display: block;
+}
+
+.search-field input {
+  width: 100%;
+  padding: 0.7rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+}
+
+.search-field input::placeholder {
+  color: var(--muted);
+}
+
+.search-field input:focus {
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+
+.tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+  margin-top: 1rem;
+}
+
+.article-tag {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.article-tag:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.article-tag.active {
+  font-weight: 900;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25rem;
+}
+
+.article-tag:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.clear-filters {
+  margin-top: 0.9rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.clear-filters:hover {
+  color: var(--accent);
+}
+
+.no-results {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.article-credits {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.article-credits p {
+  margin: 0;
+}
+
+.article-credits a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.article-credits a:hover {
+  color: var(--accent);
+}
+
 main { overflow: hidden; }
 .hero {
   max-width: var(--max-width);

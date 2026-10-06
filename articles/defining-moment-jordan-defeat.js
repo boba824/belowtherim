@@ -4,6 +4,16 @@ window.ARTICLES.push({
   id: 'defining-moment-jordan-defeat',
   date: '2009-09-09',
   author: 'Adam Fluck',
+
+  tags: [
+    'michael-jordan',
+    'bj-armstrong',
+    'chicago-bulls',
+    'detroit-pistons',
+    'playoffs',
+    'hall-of-fame'
+  ],
+
   hu: {
     title: 'Jordan meghatározó pillanata egy vereség volt',
     deck: 'Ha Michael Jordan pályafutásának meghatározó pillanataira gondolunk, általában nem a vereségek jutnak eszünkbe. B. J. Armstrong számára azonban a Pistons elleni 1990-es, hetedik mérkőzésen elszenvedett vereség mutatott meg mindent, amit Jordanről és az NBA-ről tudnia kellett.',
