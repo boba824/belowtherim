@@ -134,18 +134,6 @@ function renderTagFilters() {
     `;
   }).join('');
 
-  $$('[data-filter-tag]').forEach(button => {
-    button.addEventListener('click', () => {
-      const tag = button.dataset.filterTag;
-
-      state.selectedTag =
-        state.selectedTag === tag ? null : tag;
-
-      renderTagFilters();
-      renderNavigation();
-      updateFilterControls();
-    });
-  });
 }
 
 function renderUI() {
@@ -269,14 +257,18 @@ function renderArticle() {
   document.title = `${content.title} — ${uiText[state.language].brand}`;
   $('#article-tags').innerHTML = (article.tags || [])
     .map(tag => {
-      const label = tagLabels[tag]?.[state.language] || tag;
+      const label =
+        tagLabels[tag]?.[state.language] || tag;
+
+      const active =
+        state.selectedTag === tag;
 
       return `
         <button
           type="button"
-          class="article-tag"
-          data-tag="${tag}"
-          aria-label="${label}"
+          class="article-tag${active ? ' active' : ''}"
+          data-filter-tag="${tag}"
+          aria-pressed="${active}"
         >
           ${formatHashtag(label)}
         </button>
@@ -304,6 +296,33 @@ function updateFilterControls() {
     Boolean(state.searchQuery.trim());
 
   $('#clear-filters').hidden = !hasActiveFilter;
+}
+
+function toggleTagFilter(tag) {
+  state.selectedTag =
+    state.selectedTag === tag ? null : tag;
+
+  renderTagFilters();
+  renderNavigation();
+  updateFilterControls();
+  updateArticleTagStates();
+
+  if (window.matchMedia('(max-width: 820px)').matches) {
+    $('#article-list-title').scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+}
+
+function updateArticleTagStates() {
+  $$('#article-tags [data-filter-tag]').forEach(button => {
+    const active =
+      button.dataset.filterTag === state.selectedTag;
+
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
 }
 
 function setLanguage(language) {
@@ -361,6 +380,18 @@ $('#article-search').addEventListener('input', event => {
 
   renderNavigation();
   updateFilterControls();
+});
+
+document.addEventListener('click', event => {
+  const tagButton = event.target.closest(
+    '[data-filter-tag]'
+  );
+
+  if (!tagButton) {
+    return;
+  }
+
+  toggleTagFilter(tagButton.dataset.filterTag);
 });
 
 // Kezdeti oldalbetöltés
