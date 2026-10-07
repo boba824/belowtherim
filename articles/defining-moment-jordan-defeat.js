@@ -7,10 +7,7 @@ window.ARTICLES.push({
 
   tags: [
     'michael-jordan',
-    'bj-armstrong',
     'chicago-bulls',
-    'detroit-pistons',
-    'playoffs',
     'hall-of-fame'
   ],
 

@@ -4,6 +4,13 @@ window.ARTICLES.push({
   id: 'air-jordan-springfield',
   date: '2009-09-10',
   author: 'Sam Smith',
+
+  tags: [
+    'michael-jordan',
+    'chicago-bulls',
+    'hall-of-fame'
+  ],
+
   hu: {
     title: 'Air Jordan leszállási engedélyt kapott Springfieldben',
     deck: 'Michael Jordan Hall of Fame-beiktatásának hétvégéjén egy apró gesztus mutatta meg, hogy a legnagyobb sztár sem felejtette el azokat, akik végig mellette álltak.',

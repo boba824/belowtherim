@@ -4,6 +4,13 @@ window.ARTICLES.push({
   id: 'reinsdorf-jordan-will-to-win',
   date: '2009-09-02',
   author: 'Adam Fluck',
+
+  tags: [
+    'michael-jordan',,
+    'chicago-bulls',
+    'hall-of-fame'
+  ],
+
   hu: {
     title: 'Reinsdorf: Jordant a győzni akarása tette a legjobbá',
     deck: 'A Bulls elnöke, Jerry Reinsdorf gyakran mondta Michael Jordannek, hogy Jake LaMottára emlékezteti.',

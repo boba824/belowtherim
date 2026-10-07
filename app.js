@@ -1,23 +1,11 @@
 const tagLabels = {
   'michael-jordan': {
-    hu: 'Michael Jordan',
-    en: 'Michael Jordan'
-  },
-  'bj-armstrong': {
-    hu: 'B. J. Armstrong',
-    en: 'B. J. Armstrong'
+    hu: 'Jordan',
+    en: 'Jordan'
   },
   'chicago-bulls': {
-    hu: 'Chicago Bulls',
-    en: 'Chicago Bulls'
-  },
-  'detroit-pistons': {
-    hu: 'Detroit Pistons',
-    en: 'Detroit Pistons'
-  },
-  'playoffs': {
-    hu: 'Rájátszás',
-    en: 'Playoffs'
+    hu: 'Bulls',
+    en: 'Bulls'
   },
   'hall-of-fame': {
     hu: 'Hírességek Csarnoka',

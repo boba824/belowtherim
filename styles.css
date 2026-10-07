@@ -248,7 +248,7 @@ main { overflow: hidden; }
 .hero > p:last-child { max-width: 680px; margin: 1.5rem 0 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.25rem); }
 
 .page-layout { display: grid; grid-template-columns: 250px minmax(0, 760px); gap: clamp(2rem, 6vw, 6rem); align-items: start; max-width: var(--max-width); margin: 0 auto; padding: 0 1.25rem 7rem; }
-.article-list { position: sticky; top: 105px; }
+.article-list { position: sticky; top: 105px; max-height: calc(100vh - 130px); overflow-y: auto; padding-right: 0.5rem; scrollbar-gutter: stable; }
 .aside-heading h2 { margin: 0 0 1.25rem; font: 700 1.5rem/1.15 Georgia, serif; }
 .article-list nav { display: grid; gap: .7rem; }
 .article-link { display: block; padding: 1rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--surface); text-decoration: none; transition: border-color .15s, transform .15s; }
@@ -288,7 +288,7 @@ noscript { display: block; padding: 1rem; background: #8b1d24; color: #fff; text
   .site-nav { display: none; grid-column: 1 / -1; justify-content: flex-start; padding: .5rem 0; border-top: 1px solid var(--line); }
   .site-nav.open { display: flex; }
   .page-layout { grid-template-columns: 1fr; }
-  .article-list { position: static; }
+  .article-list { position: static; max-height: none; overflow-y: visible; padding-right: 0; }
   .article-list nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
 }
 
