@@ -102,6 +102,12 @@ a { color: inherit; }
     0 0 0 5px var(--accent);
 }
 
+.brand-mark .digital-digit line { transition: opacity 0.18s ease; }
+.brand-mark .only-23 { opacity: 0; }
+.brand-mark .only-24 { opacity: 1; }
+.brand:hover .brand-mark .only-23 { opacity: 1; }
+.brand:hover .brand-mark .only-24 { opacity: 0; }
+
 .shot-clock-number {
   display: block;
   width: 35px;
