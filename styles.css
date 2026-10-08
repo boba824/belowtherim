@@ -324,7 +324,7 @@ main { overflow: hidden; }
 }
 .hero::after { content: "23"; position: absolute; right: 1rem; top: 0; z-index: -1; color: var(--surface-strong); font: 900 clamp(12rem, 35vw, 30rem)/.9 Georgia, serif; }
 .eyebrow { margin: 0 0 .75rem; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-.hero h1 { max-width: 850px; margin: 0; font: 700 clamp(2.8rem, 7vw, 6rem)/.98 Georgia, "Times New Roman", serif; letter-spacing: -.045em; }
+.hero h1 { max-width: 850px; margin: 0; font: 700 clamp(2.8rem, 7vw, 6rem)/.98 Georgia, "Times New Roman", serif; letter-spacing: -.045em; white-space: pre-line; }
 .hero > p:last-child { max-width: 680px; margin: 1.5rem 0 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.25rem); }
 
 .page-layout { display: grid; grid-template-columns: 250px minmax(0, 760px); gap: clamp(2rem, 6vw, 6rem); align-items: start; max-width: var(--max-width); margin: 0 auto; padding: 0 1.25rem 7rem; }
