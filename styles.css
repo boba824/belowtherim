@@ -316,13 +316,9 @@ a { color: inherit; }
 }
 
 main { overflow: hidden; }
-.hero {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: clamp(2rem, 5vw, 4rem) 1.25rem clamp(3rem, 8vw, 6rem);
-  position: relative;
-}
-.hero::after { content: "23"; position: absolute; right: 1rem; top: 0; z-index: -1; color: var(--surface-strong); font: 900 clamp(12rem, 35vw, 30rem)/.9 Georgia, serif; }
+.hero { max-width: var(--max-width); margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 1.25rem clamp(3rem, 8vw, 6rem); position: relative; isolation: isolate; }
+.hero-background-number { position: absolute; top: clamp(2rem, 4vw, 3.5rem); right: 0; z-index: -1; width: clamp(14rem, 38vw, 31rem); height: auto; overflow: visible; color: var(--surface-strong); pointer-events: none; transform: rotate(-3deg); opacity: 0.75; }
+.hero-background-number line { fill: none; stroke: currentColor; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
 .eyebrow { margin: 0 0 .75rem; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 .hero h1 { max-width: 850px; margin: 0; font: 700 clamp(2.8rem, 7vw, 6rem)/.98 Georgia, "Times New Roman", serif; letter-spacing: -.045em; white-space: pre-line; }
 .hero > p:last-child { max-width: 680px; margin: 1.5rem 0 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.25rem); }
@@ -370,6 +366,7 @@ noscript { display: block; padding: 1rem; background: #8b1d24; color: #fff; text
   .page-layout { grid-template-columns: 1fr; }
   .article-list { position: static; max-height: none; overflow-y: visible; padding-right: 0; }
   .article-list nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .hero-background-number { top: 2.5rem; right: -1rem; width: 18rem; opacity: 0.75; }
 }
 
 @media (max-width: 520px) {
@@ -383,6 +380,7 @@ noscript { display: block; padding: 1rem; background: #8b1d24; color: #fff; text
   .hero { padding-top: 1.5rem; }
   .article { margin: 0 -.5rem; padding: 1.5rem; border-radius: .7rem; }
   .article-footer, .site-footer { align-items: flex-start; flex-direction: column; }
+  .hero-background-number { top: 2rem; right: -1rem; width: 15rem; opacity: 0.75; }
 }
 
 @media (prefers-reduced-motion: reduce) {
