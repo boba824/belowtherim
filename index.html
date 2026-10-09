@@ -1,11 +1,21 @@
 <!doctype html>
 <html lang="hu" data-theme="light">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-52FKW0WEGT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-52FKW0WEGT');
+  </script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Kosárlabda-történetek magyarul és angolul.">
   <meta name="color-scheme" content="light dark">
   <title>Palánk alatt — Kosárlabda-történetek</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
   <script>
     (() => {
@@ -19,13 +29,43 @@
   <a class="skip-link" href="#article">Ugrás a cikkhez</a>
 
   <header class="site-header">
-    <a class="brand" href="./" aria-label="Palánk alatt – főoldal">
-      <span class="brand-mark" aria-hidden="true">23</span>
-      <span>
-        <strong data-ui="brand">Palánk alatt</strong>
-        <small data-ui="tagline">Kosárlabda-történetek</small>
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg
+          class="shot-clock-number"
+          viewBox="0 0 66 42"
+          role="presentation"
+        >
+          <!-- 2 -->
+          <g class="digital-digit">
+            <line x1="8"  y1="5"  x2="24" y2="5"></line>
+            <line x1="26" y1="7"  x2="26" y2="18"></line>
+            <line x1="8"  y1="21" x2="24" y2="21"></line>
+            <line x1="6"  y1="24" x2="6"  y2="35"></line>
+            <line x1="8"  y1="37" x2="24" y2="37"></line>
+          </g>
+          <!-- 4 → hover esetén 3 -->
+          <g class="digital-digit">
+            <line class="only-23" x1="40" y1="5" x2="56" y2="5"></line>
+            <line class="only-24" x1="38" y1="7" x2="38" y2="18"></line>
+            <line x1="58" y1="7" x2="58" y2="18"></line>
+            <line x1="40" y1="21" x2="56" y2="21"></line>
+            <line x1="58" y1="24" x2="58" y2="35"></line>
+            <line class="only-23" x1="40" y1="37" x2="56" y2="37"></line>
+          </g>
+        </svg>
       </span>
-    </a>
+
+      <span class="brand-copy">
+        <strong class="brand-title" data-ui="brand">
+          Palánk alatt
+        </strong>
+
+        <small class="brand-tagline" data-ui="tagline">
+          Kosárlabda-történetek
+        </small>
+      </span>
+    </div>
 
     <button class="menu-toggle icon-button" type="button" aria-expanded="false" aria-controls="site-nav">
       <span class="sr-only" data-ui="menu">Menü</span>
@@ -50,6 +90,23 @@
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
+      <svg class="hero-background-number" viewBox="0 0 66 42" aria-hidden="true">
+        <!-- 2 -->
+        <g>
+          <line x1="8" y1="5" x2="24" y2="5"></line>
+          <line x1="26" y1="7" x2="26" y2="18"></line>
+          <line x1="8" y1="21" x2="24" y2="21"></line>
+          <line x1="6" y1="24" x2="6" y2="35"></line>
+          <line x1="8" y1="37" x2="24" y2="37"></line>
+        </g>
+        <!-- 4 -->
+        <g>
+          <line x1="38" y1="7" x2="38" y2="18"></line>
+          <line x1="58" y1="7" x2="58" y2="18"></line>
+          <line x1="40" y1="21" x2="56" y2="21"></line>
+          <line x1="58" y1="24" x2="58" y2="35"></line>
+        </g>
+      </svg>
       <p class="eyebrow" data-ui="eyebrow">Archív történetek a kosárlabda világából</p>
       <h1 id="hero-title" data-ui="heroTitle">Legendák. Emlékek. A pályán túl.</h1>
       <p data-ui="heroText">Hosszabb olvasmányok a játékosokról és azokról a pillanatokról, amelyek nem mindig férnek bele az eredményjelzőbe.</p>
@@ -59,9 +116,48 @@
       <aside class="article-list" aria-labelledby="article-list-title">
         <div class="aside-heading">
           <p class="eyebrow" data-ui="archive">Archívum</p>
-          <h2 id="article-list-title" data-ui="allArticles">Minden cikk</h2>
+          <h2 id="article-list-title" data-ui="allArticles">
+            Minden cikk
+          </h2>
         </div>
+
+        <div class="archive-filters">
+          <label class="search-field">
+            <span class="sr-only" data-ui="searchLabel">
+              Keresés a cikkek között
+            </span>
+
+            <input
+              id="article-search"
+              type="search"
+              data-ui-placeholder="searchPlaceholder"
+              placeholder="Keresés…"
+              autocomplete="off"
+            >
+          </label>
+
+          <div
+            id="tag-filters"
+            class="tag-filters"
+            aria-label="Szűrés címke alapján"
+          ></div>
+
+          <button
+            id="clear-filters"
+            class="clear-filters"
+            type="button"
+            hidden
+            data-ui="clearFilters"
+          >
+            Szűrés törlése
+          </button>
+        </div>
+
         <nav id="article-navigation" aria-label="Cikkek"></nav>
+
+        <p id="no-results" class="no-results" hidden data-ui="noResults">
+          Nincs megfelelő cikk.
+        </p>
         <p class="coming-soon" data-ui="moreSoon">Hamarosan további történetekkel bővül.</p>
       </aside>
 
@@ -72,22 +168,41 @@
             <span aria-hidden="true">•</span>
             <span id="reading-time"></span>
           </div>
+          <div id="article-tags" class="article-tags"></div>
           <h2 id="article-title"></h2>
           <p id="article-deck" class="article-deck"></p>
         </header>
         <div id="article-disclaimer" class="disclaimer"></div>
         <div id="article-body" class="article-body"></div>
         <footer class="article-footer">
-          <p><span data-ui="authorLabel">Szerző:</span> <strong id="article-author"></strong></p>
-          <button id="back-to-top" type="button" class="text-button" data-ui="backToTop">Vissza az oldal tetejére ↑</button>
+          <div class="article-credits">
+            <p>
+              <span data-ui="authorLabel">Szerző:</span>
+              <strong id="article-author"></strong>
+            </p>
+
+            <p id="article-source-row" hidden>
+              <span data-ui="sourceLabel">Forrás:</span>
+              <strong id="article-source"></strong>
+            </p>
+          </div>
+
+          <button
+            id="back-to-top"
+            type="button"
+            class="text-button"
+            data-ui="backToTop"
+          >
+            Vissza az oldal tetejére ↑
+          </button>
         </footer>
       </article>
     </div>
 
     <section id="about" class="about-section" aria-labelledby="about-title">
       <p class="eyebrow" data-ui="aboutEyebrow">Az oldalról</p>
-      <h2 id="about-title" data-ui="aboutTitle">Egy bővíthető cikkarchívum</h2>
-      <p data-ui="aboutText">A cikkek külön adatfájlokban élnek, ezért az archívum új történetekkel egyszerűen bővíthető. Minden írás magyar és angol nyelven is olvasható.</p>
+      <h2 id="about-title" data-ui="aboutTitle">Történetek, amelyek megmaradnak</h2>
+      <p data-ui="aboutText">A Palánk alatt egy független kosárlabda-archívum, amely emlékezetes történeteket, interjúkat és visszatekintéseket gyűjt össze a sportág meghatározó játékosairól, csapatairól és pillanatairól. A cikkek magyar fordításban és eredeti angol nyelven is elérhetők, szerzőjük és forrásuk feltüntetésével. Az oldal célja, hogy ezek a pályán és azon kívül született történetek könnyen kereshető, olvasmányos formában maradjanak fenn.</p>
     </section>
   </main>
 
@@ -99,6 +214,7 @@
   <noscript>Az oldal nyelv- és témaváltásához engedélyezni kell a JavaScriptet.</noscript>
   <script src="articles/air-jordan-springfield.js"></script>
   <script src="articles/reinsdorf-jordan-will-to-win.js"></script>
+  <script src="articles/defining-moment-jordan-defeat.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
