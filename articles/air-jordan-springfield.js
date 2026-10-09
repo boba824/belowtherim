@@ -3,6 +3,7 @@ window.ARTICLES = window.ARTICLES || [];
 window.ARTICLES.push({
   id: 'air-jordan-springfield',
   date: '2009-09-10',
+  dateAdded: '2026-10-03',
   author: 'Sam Smith',
 
   tags: [

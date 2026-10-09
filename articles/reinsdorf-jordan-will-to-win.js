@@ -3,6 +3,7 @@ window.ARTICLES = window.ARTICLES || [];
 window.ARTICLES.push({
   id: 'reinsdorf-jordan-will-to-win',
   date: '2009-09-02',
+  dateAdded: '2026-10-03',
   author: 'Adam Fluck',
 
   tags: [

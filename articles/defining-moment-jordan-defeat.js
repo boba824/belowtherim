@@ -3,6 +3,7 @@ window.ARTICLES = window.ARTICLES || [];
 window.ARTICLES.push({
   id: 'defining-moment-jordan-defeat',
   date: '2009-09-09',
+  dateAdded: '2026-10-04',
   author: 'Adam Fluck',
 
   tags: [
