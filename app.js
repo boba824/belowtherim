@@ -180,9 +180,11 @@ function renderNavigation() {
 
     link.innerHTML = `
       <strong>${article[state.language].title}</strong>
-      <time datetime="${article.date}">
-        ${formatDate(article.date, state.language)}
-      </time>
+      ${article.dateAdded ? `
+        <time datetime="${article.dateAdded}">
+          ${formatDate(article.dateAdded, state.language)}
+        </time>` : ''
+      }
     `;
 
     link.addEventListener('click', event => {
@@ -216,35 +218,20 @@ function formatHashtag(label) {
 function renderArticle() {
   const article = state.article;
   const content = article[state.language];
-  $('#article-date').dateTime = article.date;
-  $('#article-date').textContent = formatDate(article.date, state.language);
+  const articleDate = $('#article-date');
+    articleDate.hidden = !article.date;
+    articleDate.dateTime = article.date || '';
+    articleDate.textContent = article.date ? formatDate(article.date, state.language) : '';
+  $('#article-meta-separator').hidden = !article.date;
   $('#article-title').textContent = content.title;
   $('#article-deck').textContent = content.deck;
   $('#article-author').textContent = article.author;
 
   const sourceRow = $('#article-source-row');
   const sourceElement = $('#article-source');
+  sourceElement.textContent = article.source || '';
+  sourceRow.hidden = !article.source;
 
-  sourceElement.replaceChildren();
-
-  if (article.source?.name) {
-    sourceRow.hidden = false;
-
-    if (article.source.url) {
-      const sourceLink = document.createElement('a');
-
-      sourceLink.href = article.source.url;
-      sourceLink.textContent = article.source.name;
-      sourceLink.target = '_blank';
-      sourceLink.rel = 'noopener noreferrer';
-
-      sourceElement.append(sourceLink);
-    } else {
-      sourceElement.textContent = article.source.name;
-    }
-  } else {
-    sourceRow.hidden = true;
-  }
   $('#article-disclaimer').textContent = content.disclaimer;
   $('#article-disclaimer').hidden = !content.disclaimer;
   $('#article-body').innerHTML = content.body.map(block => {

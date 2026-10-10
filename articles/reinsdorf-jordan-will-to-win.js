@@ -5,12 +5,8 @@ window.ARTICLES.push({
   date: '2009-09-02',
   dateAdded: '2026-10-03',
   author: 'Adam Fluck',
-
-  tags: [
-    'michael-jordan',,
-    'chicago-bulls',
-    'hall-of-fame'
-  ],
+  source: 'Chicago Bulls',
+  tags: ['michael-jordan', 'chicago-bulls', 'hall-of-fame'],
 
   hu: {
     title: 'Reinsdorf: Jordant a győzni akarása tette a legjobbá',

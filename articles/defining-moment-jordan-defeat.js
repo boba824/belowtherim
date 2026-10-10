@@ -5,12 +5,8 @@ window.ARTICLES.push({
   date: '2009-09-09',
   dateAdded: '2026-10-04',
   author: 'Adam Fluck',
-
-  tags: [
-    'michael-jordan',
-    'chicago-bulls',
-    'hall-of-fame'
-  ],
+  source: 'Chicago Bulls',
+  tags: ['michael-jordan', 'chicago-bulls', 'hall-of-fame'],
 
   hu: {
     title: 'Jordan meghatározó pillanata egy vereség volt',
