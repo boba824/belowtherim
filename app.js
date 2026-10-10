@@ -16,7 +16,7 @@ const tagLabels = {
 const uiText = {
   hu: {
     brand: 'Palánk alatt', tagline: 'Kosárlabda-történetek', menu: 'Menü', articles: 'Cikkek', about: 'Az oldalról',
-    eyebrow: 'Archív történetek a kosárlabda világából', heroTitle: 'Legendák.\nEmlékek.\nA pályán túl.',
+    eyebrow: 'Archív történetek a kosárlabda világából', heroTitleFirst: 'Legendák.', heroTitleSecond: 'Emlékek.', heroTitleThird: 'A pályán túl.',
     heroText: 'Hosszabb olvasmányok a játékosokról és azokról a pillanatokról, amelyek nem mindig férnek bele az eredményjelzőbe.',
     archive: 'Archívum', allArticles: 'Minden cikk', moreSoon: 'Hamarosan további történetekkel bővül.',
     authorLabel: 'Szerző:', backToTop: 'Vissza az oldal tetejére ↑', aboutEyebrow: 'Az oldalról',
@@ -30,7 +30,7 @@ const uiText = {
   },
   en: {
     brand: 'Below the Rim', tagline: 'Basketball stories', menu: 'Menu', articles: 'Articles', about: 'About',
-    eyebrow: 'Archive stories from the world of basketball', heroTitle: 'Legends.\nMemories.\nBeyond the court.',
+    eyebrow: 'Archive stories from the world of basketball', heroTitleFirst: 'Legends.', heroTitleSecond: 'Memories.', heroTitleThird: 'Beyond the court.',
     heroText: 'Long reads about the players and the moments that do not always fit on the scoreboard.',
     archive: 'Archive', allArticles: 'All articles', moreSoon: 'More stories are coming soon.', authorLabel: 'By:',
     backToTop: 'Back to top ↑', aboutEyebrow: 'About', aboutTitle: 'Preserving basketball stories',
