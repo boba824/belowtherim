@@ -16,8 +16,8 @@ const tagLabels = {
 const uiText = {
   hu: {
     brand: 'Palánk alatt', tagline: 'Kosárlabda-történetek', menu: 'Menü', articles: 'Cikkek', about: 'Az oldalról',
-    eyebrow: 'Archív történetek a kosárlabda világából', heroTitle: 'Legendák.\nEmlékek.\nA pályán túl.',
-    heroText: 'Hosszabb olvasmányok a játékosokról és azokról a pillanatokról, amelyek nem mindig férnek bele az eredményjelzőbe.',
+    eyebrow: 'Archív történetek a kosárlabda világából', heroTitleFirst: 'Legendák.', heroTitleSecond: 'Emlékek.', heroTitleThird: 'A pályán túl.',
+    heroText: 'Olvasmányok a játékosokról és azokról a pillanatokról, amelyek nem mindig férnek bele az eredményjelzőbe.',
     archive: 'Archívum', allArticles: 'Minden cikk', moreSoon: 'Hamarosan további történetekkel bővül.',
     authorLabel: 'Szerző:', backToTop: 'Vissza az oldal tetejére ↑', aboutEyebrow: 'Az oldalról',
     aboutTitle: 'Történetek, amelyek megmaradnak', aboutText: 'A Palánk alatt egy független kosárlabda-archívum, amely emlékezetes történeteket, interjúkat és visszatekintéseket gyűjt össze a sportág meghatározó játékosairól, csapatairól és pillanatairól. A cikkek magyar fordításban és eredeti angol nyelven is elérhetők, szerzőjük és forrásuk feltüntetésével. Az oldal célja, hogy ezek a pályán és azon kívül született történetek könnyen kereshető, olvasmányos formában maradjanak fenn.',
@@ -30,8 +30,8 @@ const uiText = {
   },
   en: {
     brand: 'Below the Rim', tagline: 'Basketball stories', menu: 'Menu', articles: 'Articles', about: 'About',
-    eyebrow: 'Archive stories from the world of basketball', heroTitle: 'Legends.\nMemories.\nBeyond the court.',
-    heroText: 'Long reads about the players and the moments that do not always fit on the scoreboard.',
+    eyebrow: 'Archive stories from the world of basketball', heroTitleFirst: 'Legends.', heroTitleSecond: 'Memories.', heroTitleThird: 'Beyond the court.',
+    heroText: 'Reads about the players and the moments that do not always fit on the scoreboard.',
     archive: 'Archive', allArticles: 'All articles', moreSoon: 'More stories are coming soon.', authorLabel: 'By:',
     backToTop: 'Back to top ↑', aboutEyebrow: 'About', aboutTitle: 'Preserving basketball stories',
     aboutText: 'Below the Rim is an independent basketball archive collecting memorable stories, interviews and reflections about the players, teams and moments that shaped the game. Articles are available in Hungarian translation and in their original English, with authors and sources credited. The archive aims to preserve stories from both on and off the court in an accessible and searchable format.',
@@ -180,9 +180,11 @@ function renderNavigation() {
 
     link.innerHTML = `
       <strong>${article[state.language].title}</strong>
-      <time datetime="${article.date}">
-        ${formatDate(article.date, state.language)}
-      </time>
+      ${article.dateAdded ? `
+        <time datetime="${article.dateAdded}">
+          ${formatDate(article.dateAdded, state.language)}
+        </time>` : ''
+      }
     `;
 
     link.addEventListener('click', event => {
@@ -216,35 +218,20 @@ function formatHashtag(label) {
 function renderArticle() {
   const article = state.article;
   const content = article[state.language];
-  $('#article-date').dateTime = article.date;
-  $('#article-date').textContent = formatDate(article.date, state.language);
+  const articleDate = $('#article-date');
+    articleDate.hidden = !article.date;
+    articleDate.dateTime = article.date || '';
+    articleDate.textContent = article.date ? formatDate(article.date, state.language) : '';
+  $('#article-meta-separator').hidden = !article.date;
   $('#article-title').textContent = content.title;
   $('#article-deck').textContent = content.deck;
   $('#article-author').textContent = article.author;
 
   const sourceRow = $('#article-source-row');
   const sourceElement = $('#article-source');
+  sourceElement.textContent = article.source || '';
+  sourceRow.hidden = !article.source;
 
-  sourceElement.replaceChildren();
-
-  if (article.source?.name) {
-    sourceRow.hidden = false;
-
-    if (article.source.url) {
-      const sourceLink = document.createElement('a');
-
-      sourceLink.href = article.source.url;
-      sourceLink.textContent = article.source.name;
-      sourceLink.target = '_blank';
-      sourceLink.rel = 'noopener noreferrer';
-
-      sourceElement.append(sourceLink);
-    } else {
-      sourceElement.textContent = article.source.name;
-    }
-  } else {
-    sourceRow.hidden = true;
-  }
   $('#article-disclaimer').textContent = content.disclaimer;
   $('#article-disclaimer').hidden = !content.disclaimer;
   $('#article-body').innerHTML = content.body.map(block => {

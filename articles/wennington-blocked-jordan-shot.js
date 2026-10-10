@@ -6,7 +6,6 @@ window.ARTICLES.push({
   dateAdded: '2026-10-10',
   author: 'Adam Fluck',
   source: 'Chicago Bulls',
-  keywords: ['Michael Jordan', 'Bill Wennington', 'Chicago Bulls', 'Madison Square Garden', '1995-ös visszatérés', '1995–96-os szezon'],
   tags: ['michael-jordan', 'chicago-bulls', 'hall-of-fame'],
 
   hu: {

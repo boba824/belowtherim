@@ -5,12 +5,8 @@ window.ARTICLES.push({
   date: '2009-09-10',
   dateAdded: '2026-10-03',
   author: 'Sam Smith',
-
-  tags: [
-    'michael-jordan',
-    'chicago-bulls',
-    'hall-of-fame'
-  ],
+  source: 'Chicago Bulls',
+  tags: ['michael-jordan', 'chicago-bulls', 'hall-of-fame'],
 
   hu: {
     title: 'Air Jordan leszállási engedélyt kapott Springfieldben',
