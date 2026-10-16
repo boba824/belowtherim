@@ -44,8 +44,17 @@ const uiText = {
   }
 };
 
+function getPreferredLanguage() {
+  try {
+    const savedLanguage = localStorage.getItem('language');
+    if (['hu', 'en'].includes(savedLanguage)) return savedLanguage;
+  } catch {}
+
+  return /^hu(?:-|$)/i.test(navigator.language || '') ? 'hu' : 'en';
+}
+
 const state = {
-  language: localStorage.getItem('language') || 'hu',
+  language: getPreferredLanguage(),
   article: window.ARTICLES[0],
   searchQuery: '',
   selectedTag: null
@@ -75,6 +84,7 @@ function getFilteredArticles() {
 
   return window.ARTICLES.filter(article => {
     const content = article[state.language];
+      if (!content) return false;
     const tags = article.tags || [];
 
     const matchesTag =
@@ -166,44 +176,25 @@ function renderUI() {
 
 function renderNavigation() {
   const nav = $('#article-navigation');
-  const filteredArticles = getFilteredArticles();
+  const filteredArticles = getFilteredArticles().filter(article => article[state.language]);
 
   nav.innerHTML = '';
 
   filteredArticles.forEach(article => {
     const link = document.createElement('a');
+    link.className = `article-link${article.id === state.article.id ? ' active' : ''}`;
+    link.href = `/articles/${state.language}/${article.id}.html`;
 
-    link.className =
-      `article-link${article.id === state.article.id ? ' active' : ''}`;
+    const title = document.createElement('strong');
+    title.textContent = article[state.language].title;
+    link.append(title);
 
-    link.href = `#${article.id}`;
-
-    link.innerHTML = `
-      <strong>${article[state.language].title}</strong>
-      ${article.dateAdded ? `
-        <time datetime="${article.dateAdded}">
-          ${formatDate(article.dateAdded, state.language)}
-        </time>` : ''
-      }
-    `;
-
-    link.addEventListener('click', event => {
-      event.preventDefault();
-
-      state.article = article;
-      renderArticle();
-
-      history.replaceState(
-        null,
-        '',
-        `#${article.id}`
-      );
-
-      $('#article').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    });
+    if (article.dateAdded) {
+      const date = document.createElement('time');
+      date.dateTime = article.dateAdded;
+      date.textContent = formatDate(article.dateAdded, state.language);
+      link.append(date);
+    }
 
     nav.append(link);
   });

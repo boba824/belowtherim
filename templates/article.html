@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="{{language}}" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{description}}">
+  <meta name="color-scheme" content="light dark">
+  <title>{{pageTitle}}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script>
+    (() => {
+      let savedTheme;
+      try { savedTheme = localStorage.getItem('theme'); } catch {}
+      const preferred = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = ['light', 'dark'].includes(savedTheme) ? savedTheme : preferred;
+    })();
+  </script>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="canonical" href="{{canonical}}">
+  {{alternateLinks}}
+  {{socialMeta}}
+  {{structuredData}}
+  <script src="/article-page.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#article">{{skipLabel}}</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg
+          class="shot-clock-number"
+          viewBox="0 0 66 42"
+          role="presentation"
+        >
+          <!-- 2 -->
+          <g class="digital-digit">
+            <line x1="8"  y1="5"  x2="24" y2="5"></line>
+            <line x1="26" y1="7"  x2="26" y2="18"></line>
+            <line x1="8"  y1="21" x2="24" y2="21"></line>
+            <line x1="6"  y1="24" x2="6"  y2="35"></line>
+            <line x1="8"  y1="37" x2="24" y2="37"></line>
+          </g>
+          <!-- 4 → hover esetén 3 -->
+          <g class="digital-digit">
+            <line class="only-23" x1="40" y1="5" x2="56" y2="5"></line>
+            <line class="only-24" x1="38" y1="7" x2="38" y2="18"></line>
+            <line x1="58" y1="7" x2="58" y2="18"></line>
+            <line x1="40" y1="21" x2="56" y2="21"></line>
+            <line x1="58" y1="24" x2="58" y2="35"></line>
+            <line class="only-23" x1="40" y1="37" x2="56" y2="37"></line>
+          </g>
+        </svg>
+      </span>
+
+      <span class="brand-copy">
+        <strong class="brand-title">
+          <a href="/" data-ui="brand" style="color: inherit; text-decoration: none;">{{brand}}</a>
+        </strong>
+
+        <small class="brand-tagline" data-ui="tagline">
+          Kosárlabda-történetek
+        </small>
+      </span>
+    </div>
+
+    <button class="menu-toggle icon-button" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="sr-only" data-ui="menu">Menü</span>
+      <span aria-hidden="true">☰</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="{{navigationLabel}}">
+      <a class="active" href="#article" data-ui="articles">Cikkek</a>
+      <a href="/#about" data-ui="about">Az oldalról</a>
+    </nav>
+
+    <div class="controls" aria-label="Megjelenítési beállítások">
+      <nav class="language-switch" aria-label="{{languageLabel}}">
+        {{languageLinks}}
+      </nav>
+      <button id="theme-toggle" class="icon-button" type="button" aria-label="Sötét téma bekapcsolása" title="Téma váltása">
+        <span class="theme-icon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <svg class="hero-background-number" viewBox="0 0 66 42" aria-hidden="true">
+        <!-- 2 -->
+        <g>
+          <line x1="8" y1="5" x2="24" y2="5"></line>
+          <line x1="26" y1="7" x2="26" y2="18"></line>
+          <line x1="8" y1="21" x2="24" y2="21"></line>
+          <line x1="6" y1="24" x2="6" y2="35"></line>
+          <line x1="8" y1="37" x2="24" y2="37"></line>
+        </g>
+        <!-- 4 -->
+        <g>
+          <line x1="38" y1="7" x2="38" y2="18"></line>
+          <line x1="58" y1="7" x2="58" y2="18"></line>
+          <line x1="40" y1="21" x2="56" y2="21"></line>
+          <line x1="58" y1="24" x2="58" y2="35"></line>
+        </g>
+      </svg>
+      <p class="eyebrow" data-ui="eyebrow">Archív történetek a kosárlabda világából</p>
+      <p id="hero-title"><span class="hero-title-part hero-title-blue" data-ui="heroTitleFirst">Legendák.</span><span class="hero-title-part hero-title-white" data-ui="heroTitleSecond">Emlékek.</span><span class="hero-title-part hero-title-red" data-ui="heroTitleThird">A pályán túl.</span></p>
+      <p data-ui="heroText">Olvasmányok a játékosokról és azokról a pillanatokról, amelyek nem mindig férnek bele az eredményjelzőbe.</p>
+    </section>
+
+    <div class="page-layout">
+      <aside class="article-list" aria-labelledby="article-list-title">
+        <div class="aside-heading">
+          <p class="eyebrow">{{archiveLabel}}</p>
+          <h2 id="article-list-title">{{allArticlesLabel}}</h2>
+        </div>
+
+        <div class="archive-filters" id="archive-filters">
+          <label class="search-field">
+            <span class="sr-only" data-ui="searchLabel">Keresés a cikkek között</span>
+            <input id="article-search" type="search" placeholder="{{searchPlaceholder}}" autocomplete="off">
+          </label>
+          <div id="tag-filters" class="tag-filters" aria-label="{{filterLabel}}">
+            {{tagFilters}}
+          </div>
+          <button id="clear-filters" class="clear-filters" type="button" hidden data-ui="clearFilters">Szűrés törlése</button>
+        </div>
+
+        <nav id="article-navigation" aria-label="{{allArticlesLabel}}">
+          {{articleNavigation}}
+        </nav>
+
+        <p id="no-results" class="no-results" hidden data-ui="noResults">Nincs megfelelő cikk.</p>
+      </aside>
+
+      <article id="article" class="article" tabindex="-1">
+        <header class="article-header">
+          <div class="article-meta">{{articleMeta}}</div>
+          <div id="article-tags" class="article-tags">{{articleTags}}</div>
+          <h1 id="article-title">{{articleTitle}}</h1>
+          <p id="article-deck" class="article-deck">{{deck}}</p>
+        </header>
+
+        {{disclaimer}}
+        <div id="article-body" class="article-body">{{body}}</div>
+
+        <footer class="article-footer">
+          <div class="article-credits">
+            {{authorRow}}
+            {{sourceRow}}
+          </div>
+          <a href="#article" class="text-button">{{backToTopLabel}}</a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span>© {{year}} <a href="mailto:belowtherim@outlook.com">{{brand}}</a></span>
+    <span>{{footerText}}</span>
+  </footer>
+</body>
+</html>
