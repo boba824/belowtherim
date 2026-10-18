@@ -232,7 +232,9 @@ function renderArticle() {
   }).join('');
   const wordCount = content.body.flatMap(block => block.type === 'quote' ? block.paragraphs : [block.text || '']).join(' ').trim().split(/\s+/).length;
   $('#reading-time').textContent = `${Math.max(1, Math.ceil(wordCount / 210))} ${uiText[state.language].minute}`;
-  document.title = `${content.title} — ${uiText[state.language].brand}`;
+  document.title = state.language === 'hu'
+    ? 'Palánk alatt — Kosárlabda-történetek'
+    : 'Below the Rim — Basketball stories';
   $('#article-tags').innerHTML = (article.tags || [])
     .map(tag => {
       const label =
