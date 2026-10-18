@@ -6,13 +6,28 @@
   <meta name="description" content="When you think of Michael Jordan’s defining moments, losses don’t typically come to mind. But for B.J. Armstrong, it was a Game 7 defeat to the Pistons in 1990 that taught him everything he needed to know about Jordan and the NBA.">
   <meta name="color-scheme" content="light dark">
   <title>Defining moment for Jordan was in defeat — Below the Rim</title>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-52FKW0WEGT"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    const analyticsUrl = new URL(location.href);
+    analyticsUrl.hash = '';
+
+    const analyticsIsHome = ['/', '/index.html'].includes(analyticsUrl.pathname);
+
+    if (analyticsIsHome) {
+      analyticsUrl.pathname = '/';
+    }
+
     gtag('js', new Date());
-    gtag('config', 'G-52FKW0WEGT');
+    gtag('config', 'G-52FKW0WEGT', {
+      page_title: analyticsIsHome
+        ? 'Palánk alatt / Below the Rim'
+        : document.title,
+      page_location: analyticsUrl.href
+    });
   </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script>

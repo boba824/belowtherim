@@ -6,13 +6,28 @@
   <meta name="description" content="The stories of Michael Jordan on the practice floor are legendary. Bill Wennington&#39;s story shows how Jordan challenged his teammates—and how they earned his respect.">
   <meta name="color-scheme" content="light dark">
   <title>The time Bill Wennington blocked Jordan&#39;s shot — Below the Rim</title>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-52FKW0WEGT"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    const analyticsUrl = new URL(location.href);
+    analyticsUrl.hash = '';
+
+    const analyticsIsHome = ['/', '/index.html'].includes(analyticsUrl.pathname);
+
+    if (analyticsIsHome) {
+      analyticsUrl.pathname = '/';
+    }
+
     gtag('js', new Date());
-    gtag('config', 'G-52FKW0WEGT');
+    gtag('config', 'G-52FKW0WEGT', {
+      page_title: analyticsIsHome
+        ? 'Palánk alatt / Below the Rim'
+        : document.title,
+      page_location: analyticsUrl.href
+    });
   </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script>
