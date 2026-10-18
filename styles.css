@@ -420,3 +420,9 @@ noscript { display: block; padding: 1rem; background: #8b1d24; color: #fff; text
   .hero #hero-title { font-size: 1.8rem; }
   .hero > p:last-child { margin-top: .6rem; font-size: .85rem; }
 }
+
+@media (min-width: 821px) {
+  .page-layout { grid-template-columns: minmax(0, 760px) 250px; }
+  .page-layout > .article { grid-column: 1; grid-row: 1; }
+  .page-layout > .article-list { grid-column: 2; grid-row: 1; padding-right: 0; padding-left: .5rem; }
+}
