@@ -6,13 +6,28 @@
   <meta name="description" content="Michael Jordan edzésen mutatott könyörtelenségéről legendák szólnak. Bill Wennington története megmutatja, hogyan tette próbára Jordan a csapattársait – és hogyan vívhatták ki a tiszteletét.">
   <meta name="color-scheme" content="light dark">
   <title>Amikor Bill Wennington blokkolta Jordan dobását — Palánk alatt</title>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-52FKW0WEGT"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    const analyticsUrl = new URL(location.href);
+    analyticsUrl.hash = '';
+
+    const analyticsIsHome = ['/', '/index.html'].includes(analyticsUrl.pathname);
+
+    if (analyticsIsHome) {
+      analyticsUrl.pathname = '/';
+    }
+
     gtag('js', new Date());
-    gtag('config', 'G-52FKW0WEGT');
+    gtag('config', 'G-52FKW0WEGT', {
+      page_title: analyticsIsHome
+        ? 'Palánk alatt / Below the Rim'
+        : document.title,
+      page_location: analyticsUrl.href
+    });
   </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script>
