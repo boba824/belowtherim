@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Az oldal nem található | Palánk alatt</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script>
+    (() => {
+      let theme;
+      try { theme = localStorage.getItem('theme'); } catch {}
+      document.documentElement.dataset.theme = ['light', 'dark'].includes(theme)
+        ? theme
+        : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    })();
+  </script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .error-page { max-width: 760px; margin: 0 auto; padding: clamp(3rem, 10vw, 7rem) 1.25rem; }
+    .error-page h1 { font: 700 clamp(2.3rem, 6vw, 4rem)/1.1 Georgia, serif; }
+    .error-page p { color: var(--muted); }
+    .error-page a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="error-page">
+    <p class="eyebrow">404</p>
+    <h1 id="error-title">Az oldal nem található</h1>
+    <p id="error-description">A keresett oldal nem létezik, vagy megváltozott a címe.</p>
+    <a id="home-link" href="/">Vissza az archívumba →</a>
+  </main>
+
+  <script>
+    (() => {
+      const pathLanguage = location.pathname.match(/^\/articles\/(hu|en)\//)?.[1];
+      let savedLanguage;
+      try { savedLanguage = localStorage.getItem('language'); } catch {}
+
+      const language = pathLanguage ||
+        (['hu', 'en'].includes(savedLanguage) ? savedLanguage :
+          /^hu(?:-|$)/i.test(navigator.language || '') ? 'hu' : 'en');
+
+      if (language !== 'en') return;
+
+      document.documentElement.lang = 'en';
+      document.title = 'Page not found | Below the Rim';
+      document.querySelector('#error-title').textContent = 'Page not found';
+      document.querySelector('#error-description').textContent = 'The page you requested does not exist or its address has changed.';
+      document.querySelector('#home-link').textContent = 'Back to the archive →';
+    })();
+  </script>
+</body>
+</html>
