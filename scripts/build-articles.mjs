@@ -252,7 +252,7 @@ function renderArticleNavigation(articles, language, currentId) {
       ? `<time datetime="${escapeHtml(article.dateAdded)}">${escapeHtml(formatDate(article.dateAdded, language))}</time>`
       : '';
 
-    return `<a class="article-link${active ? ' active' : ''}" href="${articlePath(language, article.id)}" data-search="${escapeHtml(searchText)}" data-tags="${escapeHtml(JSON.stringify(tags))}"${active ? ' aria-current="page"' : ''}><strong>${escapeHtml(content.title)}</strong>${date}</a>`;
+    return `<a class="article-link${active ? ' active' : ''}" href="${articlePath(language, article.id)}#article" data-search="${escapeHtml(searchText)}" data-tags="${escapeHtml(JSON.stringify(tags))}"${active ? ' aria-current="page"' : ''}><strong>${escapeHtml(content.title)}</strong>${date}</a>`;
   }).join('\n');
 }
 
