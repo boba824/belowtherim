@@ -1,32 +1,8 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 64 64"
->
-  <circle
-    cx="32"
-    cy="32"
-    r="30"
-    fill="#b3262e"
-  />
-
-  <g
-    fill="none"
-    stroke="#171313"
-    stroke-width="4.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <!-- 2 -->
-    <line x1="10" y1="16" x2="25" y2="16" />
-    <line x1="27" y1="18" x2="27" y2="29" />
-    <line x1="10" y1="32" x2="25" y2="32" />
-    <line x1="8" y1="35" x2="8" y2="46" />
-    <line x1="10" y1="48" x2="25" y2="48" />
-
-    <!-- 4 -->
-    <line x1="38" y1="18" x2="38" y2="29" />
-    <line x1="55" y1="18" x2="55" y2="29" />
-    <line x1="40" y1="32" x2="53" y2="32" />
-    <line x1="55" y1="35" x2="55" y2="46" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="2" y="2" width="60" height="60" rx="4" fill="#111" stroke="#444" stroke-width="3"/>
+  <rect x="6" y="6" width="52" height="52" rx="2" fill="none" stroke="#222" stroke-width="2"/>
+  <g transform="translate(0 11)" fill="none" stroke="#ff392e" stroke-width="4" stroke-linecap="square">
+    <path d="M8 5H24 M26 7V18 M8 21H24 M6 24V35 M8 37H24"/>
+    <path d="M38 7V18 M58 7V18 M40 21H56 M58 24V35"/>
   </g>
 </svg>
