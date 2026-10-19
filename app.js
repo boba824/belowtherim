@@ -183,7 +183,7 @@ function renderNavigation() {
   filteredArticles.forEach(article => {
     const link = document.createElement('a');
     link.className = `article-link${article.id === state.article.id ? ' active' : ''}`;
-    link.href = `/articles/${state.language}/${article.id}.html`;
+    link.href = `/articles/${state.language}/${article.id}.html#article`;
 
     const title = document.createElement('strong');
     title.textContent = article[state.language].title;
