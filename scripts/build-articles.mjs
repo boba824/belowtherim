@@ -1,4 +1,4 @@
-import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
+import { readFile, readdir, mkdir, writeFile, unlink } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -396,6 +396,39 @@ function renderArticleScripts(articles) {
   }).join('\n');
 }
 
+async function cleanObsoleteArticlePages(outputs) {
+  const expectedFiles = new Set(outputs.map(output => path.resolve(output.filename)));
+
+  for (const language of languages) {
+    const directory = path.join(root, 'articles', language);
+
+    let entries;
+    try {
+      entries = await readdir(directory, { withFileTypes: true });
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw error;
+    }
+
+    for (const entry of entries) {
+      if (!entry.isFile() || !entry.name.endsWith('.html')) continue;
+
+      const filename = path.join(directory, entry.name);
+      if (expectedFiles.has(path.resolve(filename))) continue;
+
+      const html = await readFile(filename, 'utf8');
+
+      if (!html.startsWith('<!doctype html>\n<!-- GENERATED:ARTICLE-PAGE -->')) {
+        console.warn(`Nem törölt, jelöletlen HTML: ${path.relative(root, filename)}`);
+        continue;
+      }
+
+      await unlink(filename);
+      console.log(`Törölt elavult cikkoldal: ${path.relative(root, filename)}`);
+    }
+  }
+}
+
 async function main() {
   const templateFile = path.join(root, 'templates', 'article.html');
   const [articles, template] = await Promise.all([
@@ -493,7 +526,7 @@ async function main() {
 
   await writeFile(path.join(root, 'sitemap.xml'), sitemap, 'utf8');
   console.log('Elkészült: sitemap.xml');
-
+  await cleanObsoleteArticlePages(outputs);
   console.log(`${articles.length} cikkből ${outputs.length} HTML-oldal készült.`);
 }
 
