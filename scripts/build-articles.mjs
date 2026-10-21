@@ -71,7 +71,10 @@ const labels = {
 const tagLabels = {
   'michael-jordan': { hu: 'Jordan', en: 'Jordan' },
   'chicago-bulls': { hu: 'Bulls', en: 'Bulls' },
-  'hall-of-fame': { hu: 'Hírességek Csarnoka', en: 'Hall of Fame' }
+  'hall-of-fame': { hu: 'Hírességek Csarnoka', en: 'Hall of Fame' },
+  'new-york-knicks': { hu: 'Knicks', en: 'Knicks' },
+  'miami-heat': { hu: 'Heat', en: 'Heat' },
+  'rivalry': { hu: 'Rivalizálás', en: 'Rivalry' }
 };
 
 function escapeHtml(value = '') {
@@ -121,6 +124,17 @@ function imagePath(value) {
   return `/${normalized}`;
 }
 
+function videoEmbedUrl(value = '') {
+  const match = String(value).match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (match) {
+    return `https://www.youtube-nocookie.com/embed/${match[1]}`;
+  }
+  if (/^https:\/\/www\.youtube-nocookie\.com\/embed\/[\w-]{11}$/.test(value)) {
+    return value;
+  }
+  throw new Error(`Nem támogatott vagy érvénytelen videó URL: ${value}`);
+}
+
 function renderBlock(block, index) {
   if (block.type === 'quote') {
     if (!Array.isArray(block.paragraphs)) {
@@ -138,6 +152,31 @@ function renderBlock(block, index) {
     return `<figure class="article-image${portrait}"><img src="${escapeHtml(imagePath(block.src))}" alt="${escapeHtml(block.alt || '')}" loading="${loading}" decoding="async">${caption}</figure>`;
   }
 
+  if (block.type === 'heading') {
+    const level = [2, 3, 4].includes(block.level) ? block.level : 3;
+    return `<h${level}>${escapeHtml(block.text || '')}</h${level}>`;
+  }
+
+  if (block.type === 'video') {
+    const embedUrl = videoEmbedUrl(block.src);
+    const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
+    const title = escapeHtml(block.title || 'Videó');
+
+    return `<figure class="article-video"><iframe src="${escapeHtml(embedUrl)}" title="${title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>${caption}</figure>`;
+  }
+
+  if (block.type === 'table') {
+    const caption = block.caption ? `<caption>${escapeHtml(block.caption)}</caption>` : '';
+    const headers = Array.isArray(block.headers)
+      ? `<thead><tr>${block.headers.map(th => `<th scope="col">${escapeHtml(th)}</th>`).join('')}</tr></thead>`
+      : '';
+    const rows = Array.isArray(block.rows)
+      ? `<tbody>${block.rows.map(row => `<tr>${row.map(td => `<td>${escapeHtml(td)}</td>`).join('')}</tr>`).join('')}</tbody>`
+      : '';
+
+    return `<div class="article-table-wrapper"><table class="article-table">${caption}${headers}${rows}</table></div>`;
+  }
+
   if ((!block.type || block.type === 'paragraph') && typeof block.text === 'string') {
     return `<p>${escapeHtml(block.text)}</p>`;
   }
@@ -148,6 +187,10 @@ function renderBlock(block, index) {
 function readingMinutes(body) {
   const text = body.flatMap(block => {
     if (block.type === 'quote') return block.paragraphs;
+    if (block.type === 'heading') return [block.text || ''];
+    if (block.type === 'table') {
+      return [...(block.headers || []), ...(block.rows?.flat() || [])];
+    }
     return [block.text || ''];
   }).join(' ').trim();
 

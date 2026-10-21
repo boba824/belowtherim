@@ -10,6 +10,18 @@ const tagLabels = {
   'hall-of-fame': {
     hu: 'Hírességek Csarnoka',
     en: 'Hall of Fame'
+  },
+  'new-york-knicks': {
+    hu: 'Knicks',
+    en: 'Knicks'
+  },
+  'miami-heat': {
+    hu: 'Heat',
+    en: 'Heat'
+  },
+  'rivalry': {
+    hu: 'Rivalizálás',
+    en: 'Rivalry'
   }
 };
 
@@ -206,6 +218,17 @@ function formatHashtag(label) {
   return `#${label.replace(/\s+/g, '')}`;
 }
 
+function videoEmbedUrl(value = '') {
+  const match = String(value).match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (match) {
+    return `https://www.youtube-nocookie.com/embed/${match[1]}`;
+  }
+  if (/^https:\/\/www\.youtube-nocookie\.com\/embed\/[\w-]{11}$/.test(value)) {
+    return value;
+  }
+  return value;
+}
+
 function renderArticle() {
   const article = state.article;
   const content = article[state.language];
@@ -228,9 +251,28 @@ function renderArticle() {
   $('#article-body').innerHTML = content.body.map(block => {
     if (block.type === 'quote') return `<blockquote>${block.paragraphs.map(p => `<p>${p}</p>`).join('')}</blockquote>`;
     if (block.type === 'image') return `<figure class="article-image ${block.layout || ''}"><img src="${block.src}" alt="${block.alt || ''}" loading="lazy"><figcaption>${block.caption || ''}</figcaption></figure>`;
+    if (block.type === 'heading') {
+      const level = [2, 3, 4].includes(block.level) ? block.level : 3;
+      return `<h${level}>${block.text || ''}</h${level}>`;
+    }
+    if (block.type === 'video') {
+      const caption = block.caption ? `<figcaption>${block.caption}</figcaption>` : '';
+      return `<figure class="article-video"><iframe src="${videoEmbedUrl(block.src)}" title="${block.title || 'Videó'}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>${caption}</figure>`;
+    }
+    if (block.type === 'table') {
+      const caption = block.caption ? `<caption>${block.caption}</caption>` : '';
+      const headers = Array.isArray(block.headers) ? `<thead><tr>${block.headers.map(th => `<th scope="col">${th}</th>`).join('')}</tr></thead>` : '';
+      const rows = Array.isArray(block.rows) ? `<tbody>${block.rows.map(row => `<tr>${row.map(td => `<td>${td}</td>`).join('')}</tr>`).join('')}</tbody>` : '';
+      return `<div class="article-table-wrapper"><table class="article-table">${caption}${headers}${rows}</table></div>`;
+    }
     return `<p>${block.text}</p>`;
   }).join('');
-  const wordCount = content.body.flatMap(block => block.type === 'quote' ? block.paragraphs : [block.text || '']).join(' ').trim().split(/\s+/).length;
+  const wordCount = content.body.flatMap(block => {
+    if (block.type === 'quote') return block.paragraphs;
+    if (block.type === 'heading') return [block.text || ''];
+    if (block.type === 'table') return [...(block.headers || []), ...(block.rows?.flat() || [])];
+    return [block.text || ''];
+  }).join(' ').trim().split(/\s+/).length;
   $('#reading-time').textContent = `${Math.max(1, Math.ceil(wordCount / 210))} ${uiText[state.language].minute}`;
   document.title = state.language === 'hu'
     ? 'Palánk alatt — Kosárlabda-történetek'
