@@ -26,7 +26,7 @@ window.ARTICLES.push({
           '„Michael a pályafutása során részben megváltoztatta ezt azzal, hogy annyi bajnoki címet nyert a Bullsszal” – tette hozzá. „Valamelyest átírta azt a gondolkodást: megmutatta, hogy akkor is lehet meghatározó csapatod, ha a legnagyobb játékosod nem center.”'
         ]
       },
-      { type: 'image', src: 'assets/rodthorn/mj_rookie.jpg', alt: 'Jordan újoncként a Clippers ellen', caption: '„Egyszerűen félelmet nem ismerve tört a gyűrűre” – mondta Thorn az újonc Jordanről. „Szerintem az emberek hajlamosak elfelejteni, milyen kivételes atléta volt Michael. Olyan testkontrollja volt, hogy a levegőben is elviselte az ütközéseket, és be tudta fejezni a támadást, utána pedig természetesen a büntetővonalra is odaállhatott.” (Rick Stewart/NBAE/Getty Images)' },
+      { type: 'image', src: 'assets/rodthorn/mj_rookie.jpg', layout: 'portrait', alt: 'Jordan újoncként a Clippers ellen', caption: '„Egyszerűen félelmet nem ismerve tört a gyűrűre” – mondta Thorn az újonc Jordanről. „Szerintem az emberek hajlamosak elfelejteni, milyen kivételes atléta volt Michael. Olyan testkontrollja volt, hogy a levegőben is elviselte az ütközéseket, és be tudta fejezni a támadást, utána pedig természetesen a büntetővonalra is odaállhatott.” (Rick Stewart/NBAE/Getty Images)' },
       { text: 'De mit írtak akkoriban Jordanről a játékosmegfigyelői jelentések?' },
       {
         type: 'quote',
@@ -108,7 +108,7 @@ window.ARTICLES.push({
           `“Michael helped change some of that over the course of his career by winning as many championships as he and the Bulls did,” he added. “It kind of changed some of that thinking that you could have a great player who was not a center and still have a dominating team.”`
         ]
       },
-      { type: 'image', src: 'assets/rodthorn/mj_rookie.jpg', alt: 'Jordan as a rookie against the Clippers', caption: '"He would just recklessly go to the bucket," Thorn said of Jordan as a rookie. "What people forget about Michael, I think, is how great of an athlete he was. He had the body control, the ability to take hits in the air and finish, and then obviously go to the foul line." (Rick Stewart/NBAE/Getty Images)' },
+      { type: 'image', src: 'assets/rodthorn/mj_rookie.jpg', layout: 'portrait', alt: 'Jordan as a rookie against the Clippers', caption: '"He would just recklessly go to the bucket," Thorn said of Jordan as a rookie. "What people forget about Michael, I think, is how great of an athlete he was. He had the body control, the ability to take hits in the air and finish, and then obviously go to the foul line." (Rick Stewart/NBAE/Getty Images)' },
       { text: `So what was the scouting report on Jordan at the time?` },
       {
         type: 'quote',
