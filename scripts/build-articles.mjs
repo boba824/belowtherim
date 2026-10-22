@@ -35,7 +35,10 @@ const labels = {
     searchPlaceholder: 'Keresés…',
     filterLabel: 'Szűrés címke alapján',
     clearFilters: 'Szűrés törlése',
-    noResults: 'Nincs megfelelő cikk.'
+    noResults: 'Nincs megfelelő cikk.',
+    relatedArticlesLabel: 'Kapcsolódó cikkek',
+    shareLabel: 'Cikk megosztása',
+    copyLinkLabel: 'Link másolása'
   },
   en: {
     brand: 'Below the Rim',
@@ -64,7 +67,10 @@ const labels = {
     searchPlaceholder: 'Search…',
     filterLabel: 'Filter by tag',
     clearFilters: 'Clear filters',
-    noResults: 'No matching articles.'
+    noResults: 'No matching articles.',
+    relatedArticlesLabel: 'Related articles',
+    shareLabel: 'Share article',
+    copyLinkLabel: 'Copy link'
   }
 };
 
@@ -472,6 +478,37 @@ async function cleanObsoleteArticlePages(outputs) {
   }
 }
 
+function renderRelatedArticles(articles, currentArticle, language) {
+  const currentTags = new Set(currentArticle.tags || []);
+
+  const related = articles
+    .filter(article => article.id !== currentArticle.id && article[language] != null)
+    .map(article => ({
+      article,
+      score: [...new Set(article.tags || [])].filter(tag => currentTags.has(tag)).length
+    }))
+    .filter(item => item.score > 0)
+    .sort((a, b) =>
+      b.score - a.score ||
+      String(b.article.dateAdded || '').localeCompare(String(a.article.dateAdded || '')) ||
+      a.article.id.localeCompare(b.article.id)
+    )
+    .slice(0, 3);
+
+  if (!related.length) return '';
+
+  const links = related.map(({ article }) => {
+    const content = article[language];
+    const deck = content.deck
+      ? `<p>${escapeHtml(content.deck)}</p>`
+      : '';
+
+    return `<a class="related-article-link" href="${articlePath(language, article.id)}#article"><h3>${escapeHtml(content.title)}</h3>${deck}</a>`;
+  }).join('\n');
+
+  return `<section class="related-articles" aria-labelledby="related-articles-title"><h2 id="related-articles-title">${escapeHtml(labels[language].relatedArticlesLabel)}</h2><div class="related-articles-grid">${links}</div></section>`;
+}
+
 async function main() {
   const templateFile = path.join(root, 'templates', 'article.html');
   const [articles, template] = await Promise.all([
@@ -523,6 +560,7 @@ async function main() {
         allArticlesLabel: escapeHtml(ui.allArticlesLabel),
         languageLabel: escapeHtml(ui.languageLabel),
         articleNavigation: renderArticleNavigation(articles, language, article.id),
+        relatedArticles: renderRelatedArticles(articles, article, language),
         searchPlaceholder: escapeHtml(ui.searchPlaceholder),
         filterLabel: escapeHtml(ui.filterLabel),
         tagFilters: renderTagFilters(articles, language),
@@ -536,7 +574,9 @@ async function main() {
         sourceRow: article.source ? `<p id="article-source-row"><span>${escapeHtml(ui.sourceLabel)}</span> <strong id="article-source">${escapeHtml(article.source)}</strong></p>` : '',
         backToTopLabel: escapeHtml(ui.backToTopLabel),
         year: String(new Date().getUTCFullYear()),
-        footerText: escapeHtml(ui.footerText)
+        footerText: escapeHtml(ui.footerText),
+        shareLabel: escapeHtml(ui.shareLabel),
+        copyLinkLabel: escapeHtml(ui.copyLinkLabel)
       };
 
       outputs.push({

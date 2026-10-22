@@ -142,6 +142,23 @@
 
       <article id="article" class="article" tabindex="-1">
         <header class="article-header">
+          <div class="article-share" aria-label="{{shareLabel}}">
+            <button id="share-article" class="icon-button" type="button" aria-label="{{shareLabel}}" title="{{shareLabel}}" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"></path>
+              </svg>
+            </button>
+            <button id="copy-article-link" class="icon-button" type="button" aria-label="{{copyLinkLabel}}" title="{{copyLinkLabel}}" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+                <path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"></path>
+              </svg>
+            </button>
+            <span id="share-status" class="share-status" role="status"></span>
+          </div>
           <div class="article-meta">{{articleMeta}}</div>
           <div id="article-tags" class="article-tags">{{articleTags}}</div>
           <h1 id="article-title">{{articleTitle}}</h1>
@@ -158,6 +175,8 @@
           </div>
           <a href="#article" class="text-button">{{backToTopLabel}}</a>
         </footer>
+
+        {{relatedArticles}}
       </article>
     </div>
   </main>
