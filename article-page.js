@@ -114,4 +114,59 @@
   }
   
   updateThemeLabel();
+
+    const shareButton = document.querySelector('#share-article');
+  const copyLinkButton = document.querySelector('#copy-article-link');
+  const shareStatus = document.querySelector('#share-status');
+  const isEnglish = document.documentElement.lang === 'en';
+  const shareUrl = new URL(location.pathname, location.origin).href;
+  const shareTitle = document.querySelector('#article-title')?.textContent.trim() || document.title;
+
+  let statusTimer;
+
+  function showShareStatus(message) {
+    if (!shareStatus) return;
+    clearTimeout(statusTimer);
+    shareStatus.textContent = message;
+    statusTimer = setTimeout(() => {
+      shareStatus.textContent = '';
+    }, 3000);
+  }
+
+  async function copyArticleLink() {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(shareUrl);
+      showShareStatus(isEnglish ? 'Link copied.' : 'Link másolva.');
+    } catch {
+      window.prompt(
+        isEnglish ? 'Copy this article link:' : 'Másold ki a cikk linkjét:',
+        shareUrl
+      );
+    }
+  }
+
+  if (shareButton) {
+    shareButton.hidden = false;
+
+    shareButton.addEventListener('click', async () => {
+      if (typeof navigator.share !== 'function') {
+        await copyArticleLink();
+        return;
+      }
+
+      try {
+        await navigator.share({ title: shareTitle, url: shareUrl });
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          await copyArticleLink();
+        }
+      }
+    });
+  }
+
+  if (copyLinkButton) {
+    copyLinkButton.hidden = false;
+    copyLinkButton.addEventListener('click', copyArticleLink);
+  }
 })();

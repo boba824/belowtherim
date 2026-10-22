@@ -345,7 +345,7 @@ main { overflow: hidden; }
 .article-link time { display: block; margin-top: .4rem; color: var(--muted); font-size: .75rem; }
 .coming-soon { margin-top: 1.2rem; color: var(--muted); font-size: .82rem; }
 
-.article { min-width: 0; padding: clamp(1.5rem, 5vw, 4rem); border-radius: 1rem; background: var(--surface); box-shadow: var(--shadow); }
+.article { min-width: 0; padding: clamp(1.5rem, 5vw, 4rem); padding-top: clamp(.75rem, 2.5vw, 2rem); border-radius: 1rem; background: var(--surface); box-shadow: var(--shadow); }
 .article-meta { display: flex; gap: .55rem; align-items: center; color: var(--muted); font-size: .78rem; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; }
 .article #article-title { margin: .85rem 0 1rem; font: 700 clamp(2.3rem, 5vw, 4.5rem)/1.02 Georgia, "Times New Roman", serif; letter-spacing: -.035em; }
 .article-header { margin-bottom: 2.25rem; }
@@ -471,3 +471,17 @@ noscript { display: block; padding: 1rem; background: #8b1d24; color: #fff; text
 .related-article-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .related-article-link h3 { margin: 0; font: 700 1.1rem/1.3 Georgia, serif; }
 .related-article-link p { margin: .5rem 0 0; color: var(--muted); font-size: .85rem; line-height: 1.5; }
+
+.article-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: .75rem; }
+.article-header > * { grid-column: 1 / -1; }
+.article-header > .article-meta { grid-column: 1; grid-row: 1; flex-wrap: wrap; }
+.article-header > .article-share { grid-column: 2; grid-row: 1; }
+.article-share { position: relative; display: flex; align-items: center; gap: .4rem; margin: 0; }
+.article-share .icon-button { width: 34px; height: 34px; }
+.article-share .icon-button svg { width: 17px; height: 17px; }
+.article-share [hidden] { display: none; }
+.share-status { position: absolute; top: calc(100% + .3rem); right: 0; width: max-content; max-width: 220px; color: var(--muted); font-size: .75rem; }
+
+@media (min-width: 821px) {
+  .page-layout { width: 100%; max-width: 1240px; box-sizing: border-box; grid-template-columns: minmax(0, 1fr) 250px; column-gap: 2rem; }
+}

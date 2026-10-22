@@ -36,7 +36,9 @@ const labels = {
     filterLabel: 'Szűrés címke alapján',
     clearFilters: 'Szűrés törlése',
     noResults: 'Nincs megfelelő cikk.',
-    relatedArticlesLabel: 'Kapcsolódó cikkek'
+    relatedArticlesLabel: 'Kapcsolódó cikkek',
+    shareLabel: 'Cikk megosztása',
+    copyLinkLabel: 'Link másolása'
   },
   en: {
     brand: 'Below the Rim',
@@ -66,7 +68,9 @@ const labels = {
     filterLabel: 'Filter by tag',
     clearFilters: 'Clear filters',
     noResults: 'No matching articles.',
-    relatedArticlesLabel: 'Related articles'
+    relatedArticlesLabel: 'Related articles',
+    shareLabel: 'Share article',
+    copyLinkLabel: 'Copy link'
   }
 };
 
@@ -570,7 +574,9 @@ async function main() {
         sourceRow: article.source ? `<p id="article-source-row"><span>${escapeHtml(ui.sourceLabel)}</span> <strong id="article-source">${escapeHtml(article.source)}</strong></p>` : '',
         backToTopLabel: escapeHtml(ui.backToTopLabel),
         year: String(new Date().getUTCFullYear()),
-        footerText: escapeHtml(ui.footerText)
+        footerText: escapeHtml(ui.footerText),
+        shareLabel: escapeHtml(ui.shareLabel),
+        copyLinkLabel: escapeHtml(ui.copyLinkLabel)
       };
 
       outputs.push({
