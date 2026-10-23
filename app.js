@@ -248,25 +248,35 @@ function renderArticle() {
 
   $('#article-disclaimer').textContent = content.disclaimer;
   $('#article-disclaimer').hidden = !content.disclaimer;
-  $('#article-body').innerHTML = content.body.map(block => {
-    if (block.type === 'quote') return `<blockquote>${block.paragraphs.map(p => `<p>${p}</p>`).join('')}</blockquote>`;
-    if (block.type === 'image') return `<figure class="article-image ${block.layout || ''}"><img src="${block.src}" alt="${block.alt || ''}" loading="lazy"><figcaption>${block.caption || ''}</figcaption></figure>`;
-    if (block.type === 'heading') {
-      const level = [2, 3, 4].includes(block.level) ? block.level : 3;
-      return `<h${level}>${block.text || ''}</h${level}>`;
-    }
-    if (block.type === 'video') {
-      const caption = block.caption ? `<figcaption>${block.caption}</figcaption>` : '';
-      return `<figure class="article-video"><iframe src="${videoEmbedUrl(block.src)}" title="${block.title || 'Videó'}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>${caption}</figure>`;
-    }
-    if (block.type === 'table') {
-      const caption = block.caption ? `<caption>${block.caption}</caption>` : '';
-      const headers = Array.isArray(block.headers) ? `<thead><tr>${block.headers.map(th => `<th scope="col">${th}</th>`).join('')}</tr></thead>` : '';
-      const rows = Array.isArray(block.rows) ? `<tbody>${block.rows.map(row => `<tr>${row.map(td => `<td>${td}</td>`).join('')}</tr>`).join('')}</tbody>` : '';
-      return `<div class="article-table-wrapper"><table class="article-table">${caption}${headers}${rows}</table></div>`;
-    }
-    return `<p>${block.text}</p>`;
-  }).join('');
+  $('#article').classList.add('article--preview');
+  $('#article-disclaimer').hidden = true;
+
+  const firstParagraph = content.body.find(block =>
+    (!block.type || block.type === 'paragraph') && block.text
+  );
+
+  const previewBody = $('#article-body');
+  previewBody.replaceChildren();
+
+  if (firstParagraph) {
+    const paragraph = document.createElement('p');
+    paragraph.textContent = firstParagraph.text;
+    previewBody.append(paragraph);
+  }
+
+  let continueLink = $('#article-continue');
+
+  if (!continueLink) {
+    continueLink = document.createElement('a');
+    continueLink.id = 'article-continue';
+    continueLink.className = 'article-continue';
+    previewBody.after(continueLink);
+  }
+
+  continueLink.href = `/articles/${state.language}/${article.id}.html#article`;
+  continueLink.textContent = state.language === 'hu'
+    ? 'Tovább az olvasáshoz →'
+    : 'Continue reading →';
   const wordCount = content.body.flatMap(block => {
     if (block.type === 'quote') return block.paragraphs;
     if (block.type === 'heading') return [block.text || ''];
