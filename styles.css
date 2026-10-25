@@ -518,5 +518,5 @@ noscript { display: block; padding: 1rem; background: #8b1d24; color: #fff; text
 }
 
 @media (max-width: 520px) {
-  .hero-heading { font-size: clamp(1.1rem, 4.6vw, 1.5rem); }
+  .hero-heading { font-size: clamp(1.65rem, 6.9vw, 2.25rem); }
 }
