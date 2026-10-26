@@ -80,7 +80,10 @@ const tagLabels = {
   'hall-of-fame': { hu: 'Hírességek Csarnoka', en: 'Hall of Fame' },
   'new-york-knicks': { hu: 'Knicks', en: 'Knicks' },
   'miami-heat': { hu: 'Heat', en: 'Heat' },
-  'rivalry': { hu: 'Rivalizálás', en: 'Rivalry' }
+  'rivalry': { hu: 'Rivalizálás', en: 'Rivalry' },
+  'kobe-bryant': { hu: 'Kobe', en: 'Kobe' },
+  'mamba-mentality': { hu: 'Mamba Mentalitás', en: 'Mamba Mentality' },
+  'olympics': { hu: 'Olimpia', en: 'Olympics' }
 };
 
 function escapeHtml(value = '') {
