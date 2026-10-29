@@ -84,7 +84,8 @@ const tagLabels = {
   'kobe-bryant': { hu: 'Kobe', en: 'Kobe' },
   'mamba-mentality': { hu: 'Mamba Mentalitás', en: 'Mamba Mentality' },
   'olympics': { hu: 'Olimpia', en: 'Olympics' },
-  'sonics': { hu: 'Sonics', en: 'Sonics' }
+  'sonics': { hu: 'Sonics', en: 'Sonics' },
+  'playoffs': { hu: 'Rájátszás', en: 'Playoffs' }
 };
 
 function escapeHtml(value = '') {
