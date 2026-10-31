@@ -58,7 +58,7 @@
   const searchInput = document.querySelector('#article-search');
   const clearButton = document.querySelector('#clear-filters');
   const noResults = document.querySelector('#no-results');
-  const filterButtons = [...document.querySelectorAll('#tag-filters [data-filter-tag]')];
+  const filterButtons = [...document.querySelectorAll('#tag-filters [data-filter-tag], #article-tags [data-filter-tag]')];
   const articleLinks = [...document.querySelectorAll('#article-navigation .article-link')].map(link => ({
     link,
     search: normalizeSearch(link.dataset.search || ''),
@@ -99,6 +99,13 @@
       button.addEventListener('click', () => {
         selectedTag = selectedTag === button.dataset.filterTag ? null : button.dataset.filterTag;
         applyFilters();
+
+        if (button.closest('#article-tags') && window.matchMedia('(max-width: 820px)').matches) {
+          document.querySelector('#article-list-title')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
       });
     });
 

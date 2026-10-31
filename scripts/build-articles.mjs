@@ -546,7 +546,7 @@ async function main() {
 
       const articleTags = (article.tags || []).map(tag => {
         const label = tagLabels[tag]?.[language] || tag;
-        return `<span class="article-tag">${escapeHtml(`#${label.replace(/\s+/g, '')}`)}</span>`;
+        return `<button type="button" class="article-tag" data-filter-tag="${escapeHtml(tag)}" aria-pressed="false">${escapeHtml(`#${label.replace(/\s+/g, '')}`)}</button>`;
       }).join('');
 
       const values = {
