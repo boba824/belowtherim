@@ -5,7 +5,7 @@ window.ARTICLES.push({
   date: '2009-09-10',
   dateAdded: '2026-10-03',
   author: 'Sam Smith',
-  source: 'Chicago Bulls',
+  source: 'nba.com / Chicago Bulls',
   tags: ['michael-jordan', 'chicago-bulls', 'hall-of-fame'],
 
   hu: {

@@ -5,7 +5,7 @@ window.ARTICLES.push({
   date: '2009-09-03',
   dateAdded: '2026-10-18',
   author: 'Adam Fluck',
-  source: '',
+  source: 'nba.com / Chicago Bulls',
   tags: ['michael-jordan', 'chicago-bulls', 'hall-of-fame'],
 
   hu: {
